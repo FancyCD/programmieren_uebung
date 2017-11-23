@@ -1,3 +1,2 @@
-Git is a distributed version control system.
-Git is free software distributed under the GPL.
-Git has a mutable index called stage.
+This is the prototype of a alien game, whose idea came out of the very famous oldschool shoot game X-com.
+
