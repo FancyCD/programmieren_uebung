@@ -10,7 +10,9 @@ public class AlienGame {
         	int y = pos[1];
         	for (int i = 0; i < map.aliens.length; i++) {
         		if (map.aliens[i].position[0] == x && map.aliens[i].position[1] == y) {
+        			System.out.println("Der Spieler hat das Alien grtroffen!");
         			map.aliens[i].status -= 1;
+        			break;
         		}
         	}
         }
@@ -21,14 +23,17 @@ public class AlienGame {
         public int status = 1; // 1 als lebendig, <= 1 als tot
         public int[] position = new int[2];
         
-        public int distance(Player player) {
-            int distance = Math.abs(player.position[0] - this.position[0]) + Math.abs(player.position[1] - this.position[1]);
+        public int distance(int[] pos) {
+            int distance = Math.abs(pos[0] - this.position[0]) + Math.abs(pos[1] - this.position[1]);
             return distance;
 		}
+
         public void shoot(Player player) {
         	int x = this.position[0];
         	int y = this.position[1];
         	System.out.printf("Das Alien bei (%d,%d) greift den Spieler an.\n", x, y);
+        	
+        	System.out.println("Das Alien hat den Spieler grtroffen!");
         	player.hitpoint -= 1;
         }
     }
