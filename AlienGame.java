@@ -3,14 +3,14 @@ import java.util.Scanner;
 public class AlienGame {
 
 	private static class Player {
-		public static int hitpoint = 5;
-		public static int[] position = new int[2];
+		private static int hitpoint = 5;
+		private static int[] position = new int[2];
 		public void shoot(int[] alienpos, Map map) {
 			int x = alienpos[0];
 			int y = alienpos[1];
 			for (Alien al : map.aliens) {
 				if (al.position[0] == x && al.position[1] == y) {
-					double t = Math.random()*9/al.distance(this.position);
+					double t = Math.random() * 9 / al.distance(this.position);
 					if (t >= 0.5) {
 						System.out.println("Der Spieler hat das Alien grtroffen!");
 						al.status -= 1;
@@ -24,8 +24,8 @@ public class AlienGame {
 	}
 
 	private static class Alien {
-		public int status = 1; // 1 als lebendig, <= 1 als tot
-		public int[] position = new int[2];
+		private int status = 1; // 1 als lebendig, <= 1 als tot
+		private int[] position = new int[2];
 		public int distance(int[] pos) {
 			int distance = Math.abs(pos[0] - this.position[0]) + Math.abs(pos[1] - this.position[1]);
 			return distance;
@@ -34,7 +34,7 @@ public class AlienGame {
 			int x = this.position[0];
 			int y = this.position[1];
 			System.out.printf("Das Alien bei (%d,%d) greift den Spieler an.\n", x, y);
-			double t = Math.random()*6/this.distance(player.position);
+			double t = Math.random() * 6 / this.distance(player.position);
 			if (t >= 0.5) {
 				System.out.println("Das Alien hat den Spieler grtroffen!");
 				player.hitpoint -= 1;
@@ -45,21 +45,20 @@ public class AlienGame {
 	}
 
 	private static class Map {
-		public char[][] map;
-		public Player player = new Player();
-		public Alien[] aliens;
-		public void getInfo (String[] insert) {
+		private char[][] map;
+		private Player player = new Player();
+		private Alien[] aliens;
+		public void getInfo(String[] insert) {
 			int x = Integer.parseInt(insert[0]),
-			y = Integer.parseInt(insert[1]),
-			alienzahl = Integer.parseInt(insert[2]);
-			
+				y = Integer.parseInt(insert[1]),
+				alienzahl = Integer.parseInt(insert[2]);
 			this.map = new char[x][y];
 			this.aliens = new Alien[alienzahl];
 		}
-		public String toString () {
+		public String toString() {
 			return "Der Spieler hat noch " + this.player.hitpoint + " Hitpoints";
 		}
-		public void printInfo () {
+		public void printInfo() {
 			int breite = this.map.length, hoehe = this.map[0].length;
 			for (int i = 0; i < breite; i++) {
 				for (int j = 0; j < hoehe; j++) {
@@ -69,8 +68,8 @@ public class AlienGame {
 			this.map[this.player.position[0]][this.player.position[1]] = 'P';
 			for (Alien al : this.aliens) {
 				int x = al.position[0],
-				y = al.position[1];
-				this.map[x][y] = al.status == 1? 'A' : 'X';
+					y = al.position[1];
+				this.map[x][y] = al.status == 1 ? 'A' : 'X';
 			}
 			// Spielfeld zeichnen.
 			System.out.println("\nSpielfeld:");
@@ -159,14 +158,13 @@ public class AlienGame {
 				spielfeld.aliens[alien] = new Alien();
 				spielfeld.aliens[alien].position[0] = x;
 				spielfeld.aliens[alien].position[1] = y;
-				alien ++;
+				alien++;
 			}
 		}
 
 		outerloop: while (true) {
 			spielfeld.printInfo();
 			System.out.println(spielfeld.toString());
-
 			Scanner usrinput = new Scanner(System.in);
 			System.out.println("Wohin soll der Spieler angreifen? (X-Koordinate)");
 			int x = usrinput.nextInt();
@@ -177,7 +175,7 @@ public class AlienGame {
 			int deadalien = 0;
 			for (Alien al : spielfeld.aliens) {
 				if (al.status < 1) {
-					deadalien ++;
+					deadalien++;
 				}
 				if (deadalien == alienanzahl) {
 					System.out.println("Der Spieler hat alle Aliens besiegt!");
