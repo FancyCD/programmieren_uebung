@@ -24,7 +24,7 @@ public class AlienGame {
 	}
 
 	private static class Alien {
-		private int status = 1; // 1 als lebendig, <= 1 als tot
+		private int status = 1; // 1 als lebendig, < 1 als tot
 		private int[] position = new int[2];
 		public int distance(int[] pos) {
 			int distance = Math.abs(pos[0] - this.position[0]) + Math.abs(pos[1] - this.position[1]);
@@ -54,17 +54,17 @@ public class AlienGame {
 				alienzahl = Integer.parseInt(insert[2]);
 			this.map = new char[x][y];
 			this.aliens = new Alien[alienzahl];
+			for (int i = 0; i < x; i++) {
+				for (int j = 0; j < y; j++) {
+					this.map[i][j] = ' ';
+				}
+			}
 		}
 		public String toString() {
 			return "Der Spieler hat noch " + this.player.hitpoint + " Hitpoints";
 		}
-		public void printInfo() {
+		public void plotMap() {
 			int breite = this.map.length, hoehe = this.map[0].length;
-			for (int i = 0; i < breite; i++) {
-				for (int j = 0; j < hoehe; j++) {
-					this.map[i][j] = ' ';
-				}
-			}
 			this.map[this.player.position[0]][this.player.position[1]] = 'P';
 			for (Alien al : this.aliens) {
 				int x = al.position[0],
@@ -73,7 +73,7 @@ public class AlienGame {
 			}
 			// Spielfeld zeichnen.
 			System.out.println("\nSpielfeld:");
-			// Koodinate Top
+			// Koodinate Top und Waende Top
 			System.out.print("  ");
 			for (int i = 0; i < breite; i++) {
 				System.out.print(i);
@@ -83,13 +83,15 @@ public class AlienGame {
 				System.out.print('*');
 			}
 			System.out.println();
+			// Spielfeld
 			for (int i = 0; i < hoehe; i++) {
-				System.out.print(i + "*");	// Die Waende hinzufuegen
+				System.out.print(i + "*");	// Die Waende links hinzufuegen
 				for (int j = 0; j < breite; j++) {
 					System.out.print(this.map[j][i]);
 				}
-				System.out.println("*");	// Die Waende hinzufuegen
+				System.out.println("*");	// Die Waende rechts hinzufuegen
 			}
+			// Der Wand Bottom
 			System.out.print(" ");
 			for (int i = 0; i < breite + 2; i++) {
 				System.out.print('*');
@@ -163,8 +165,8 @@ public class AlienGame {
 		}
 
 		outerloop: while (true) {
-			spielfeld.printInfo();
-			System.out.println(spielfeld.toString());
+			spielfeld.plotMap();
+			System.out.println(spielfeld);
 			Scanner usrinput = new Scanner(System.in);
 			System.out.println("Wohin soll der Spieler angreifen? (X-Koordinate)");
 			int x = usrinput.nextInt();
@@ -186,7 +188,7 @@ public class AlienGame {
 				if (al.status == 1) {
 					al.shoot(spielfeld.player);
 					if (spielfeld.player.hitpoint == 0) {
-						System.out.println("You lose.");
+						System.out.println("Die Aliens haben der Spieler besiegt.");
 						break outerloop;
 					}
 				}
