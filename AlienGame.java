@@ -1,20 +1,24 @@
 import java.util.Scanner;
 
 public class AlienGame {
-	public static boolean smooth = true;
+	private static boolean smooth = true;
 	private static class Player {
-		private static int hitpoint = 5;
-		private static int[] position = new int[2];
-		public void shoot(int[] alienpos, Map map) {
+		private int hitpoint = 5;
+		private int[] position = new int[2];
+		private void shoot(int[] alienpos, Map map) {
 			int x = alienpos[0];
 			int y = alienpos[1];
+			if (x >= map.map.length || y >= map.map[0].length) {
+				System.out.println("Die Zielposition ist ausserhalb der Grenze.");
+				return;
+			}
 			for (Alien al : map.aliens) {
 				if (al.position[0] == x && al.position[1] == y) {
 					if (al.status == 0) {
 						System.out.println("Dieser Alien ist bereits besiegt.");
 						return;
 					}
-					double t = Math.random() * 9 / al.distance(this.position);
+					double t = Math.random() * 9 / al.distance(position);
 					if (t >= 0.5) {
 						System.out.println("Der Spieler hat das Alien grtroffen!");
 						al.status -= 1;
@@ -32,15 +36,15 @@ public class AlienGame {
 	private static class Alien {
 		private int status = 1; // 1 als lebendig, 0 als tot
 		private int[] position = new int[2];
-		public int distance(int[] pos) {
-			int distance = Math.abs(pos[0] - this.position[0]) + Math.abs(pos[1] - this.position[1]);
+		private int distance(int[] pos) {
+			int distance = Math.abs(pos[0] - position[0]) + Math.abs(pos[1] - position[1]);
 			return distance;
 		}
-		public void shoot(Player player) {
-			int x = this.position[0];
-			int y = this.position[1];
+		private void shoot(Player player) {
+			int x = position[0];
+			int y = position[1];
 			System.out.printf("Das Alien bei (%d,%d) greift den Spieler an.\n", x, y);
-			double t = Math.random() * 6 / this.distance(player.position);
+			double t = Math.random() * 6 / distance(player.position);
 			if (t >= 0.5) {
 				System.out.println("Das Alien hat den Spieler getroffen!");
 				player.hitpoint -= 1;
@@ -77,21 +81,21 @@ public class AlienGame {
 				smooth = false;
 				return;	// Die Methode beenden
 			}
-			this.map = new char[x][y];
-			this.aliens = new Alien[alienzahl];
+			map = new char[x][y];
+			aliens = new Alien[alienzahl];
 			for (int i = 0; i < x; i++) {
 				for (int j = 0; j < y; j++) {
-					this.map[i][j] = ' ';
+					map[i][j] = ' ';
 				}
 			}
 			// Zufallige Position von Spieler
 			while (true) {
 				int zufallx = (int) (Math.random() * x);
 				int zufally = (int) (Math.random() * y);
-				if (this.map[zufallx][zufally] == ' ') {
-					this.map[zufallx][zufally] = 'P';
-					this.player.position[0] = zufallx;
-					this.player.position[1] = zufally;
+				if (map[zufallx][zufally] == ' ') {
+					map[zufallx][zufally] = 'P';
+					player.position[0] = zufallx;
+					player.position[1] = zufally;
 					break;
 				}
 			}
@@ -100,23 +104,23 @@ public class AlienGame {
 			while (alien < alienzahl) {
 				int zufallx = (int) (Math.random() * x);
 				int zufally = (int) (Math.random() * y);
-				if (this.map[zufallx][zufally] == ' ') {
-					this.aliens[alien] = new Alien();
-					this.aliens[alien].position[0] = zufallx;
-					this.aliens[alien].position[1] = zufally;
+				if (map[zufallx][zufally] == ' ') {
+					aliens[alien] = new Alien();
+					aliens[alien].position[0] = zufallx;
+					aliens[alien].position[1] = zufally;
 					alien++;
 				}
 			}
 		}
 		public String toString() {
-			return "Der Spieler hat noch " + this.player.hitpoint + " Hitpoints";
+			return "Der Spieler hat noch " + player.hitpoint + " Hitpoints";
 		}
 		public void plotMap() {
-			int breite = this.map.length, hoehe = this.map[0].length;
-			for (Alien al : this.aliens) {
+			int breite = map.length, hoehe = map[0].length;
+			for (Alien al : aliens) {
 				int x = al.position[0],
 					y = al.position[1];
-				this.map[x][y] = al.status == 1 ? 'A' : 'X';
+				map[x][y] = al.status == 1 ? 'A' : 'X';
 			}
 			// Spielfeld zeichnen.
 			System.out.println("\nSpielfeld:");
@@ -134,7 +138,7 @@ public class AlienGame {
 			for (int i = 0; i < hoehe; i++) {
 				System.out.printf( "%2d*", i);	// Die Waende links hinzufuegen
 				for (int j = 0; j < breite; j++) {
-					System.out.print(this.map[j][i]);
+					System.out.print(map[j][i]);
 				}
 				System.out.println("*");	// Die Waende rechts hinzufuegen
 			}
