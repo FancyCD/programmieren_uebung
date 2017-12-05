@@ -6,8 +6,17 @@ import java.util.Scanner;
 * @author Chijiang Duan 4727082 Gruppe 4a
 */
 class Player {
-	int hitpoint = 5;
-	int[] position = new int[2];
+	private int hitpoint = 5;
+	private int[] position = new int[2];
+	public int getHp() {
+		return hitpoint;
+	}
+	public void losHp() {
+		hitpoint -= 1;
+	}
+	public int[] getPos() {
+		return position;
+	}
 	/**
 	* Diese Methode führt den Schießprozess 
 	* vom Spieler zu einem Alien aus.
@@ -50,8 +59,16 @@ class Player {
 * @author Chijiang Duan 4727082 Gruppe 4a
 */
 class Alien {
-	int status = 1; // 1 als lebendig, 0 als tot
-	int[] position = new int[2];
+	private int status = 1; // 1 als lebendig, 0 als tot
+	private int[] position = new int[2];
+	public int getStatus () {
+		return status;
+	}
+	
+	public int[] getPos () {
+		return position;
+	}
+	
 	/**
 	* Diese Methode rechbet den Abstand zwischen 
 	* das Alien und eine Zielposition.
@@ -157,13 +174,6 @@ class Map {
 	* @return das Hitpoint des Spielers in String
 	*/
 	public String toString() {
-		return "Der Spieler hat noch " + player.hitpoint + " Hitpoints";
-	}
-	/**
-	* Diese Methode zeichnet das generierte
-	* Spielfeld.
-	*/
-	public void plotMap() {
 		int breite = map.length, hoehe = map[0].length;
 		for (Alien al : aliens) {
 			int x = al.position[0],
@@ -196,8 +206,8 @@ class Map {
 			System.out.print('*');
 		}
 		System.out.println();
+		return "Der Spieler hat noch " + player.hitpoint + " Hitpoints";
 	}
-
 }
 /**
 * Diese Klasse hat ein mai-Methode fuer das
@@ -209,7 +219,6 @@ public class AlienGame {
 		Map spielfeld = new Map(args);
 		int x, y;
 		while (spielfeld.smooth) {
-			spielfeld.plotMap();
 			System.out.println(spielfeld);
 			Scanner usrinput = new Scanner(System.in);
 			System.out.println("Wohin soll der Spieler angreifen? (X-Koordinate)");
