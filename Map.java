@@ -8,7 +8,7 @@
 */
 class Map {
 	private char[][] map;
-	private Player player = new Player();
+	private Player player;
 	private Alien[] aliens;
 	private boolean smooth;
 	public char[][] getMap() {
@@ -17,7 +17,7 @@ class Map {
 	public Alien[] getAliens() {
 		return aliens;
 	}
-	public boolean getSmooth() {
+	public boolean isSmooth() {
 		return smooth;
 	}
 	public Player getPlayer() {
@@ -30,7 +30,18 @@ class Map {
 	* und der Aliens.
 	* @param insert ist eingegebene Parameter von Nutzer
 	*/
-	Map(String[] insert) {
+	Map(String[] insert, char choice) {
+		switch (choice) {
+			case 'P' : 
+				player = new Player();
+				break;
+			case 'S' :
+				player = new Sniper();
+				break;
+			case 'B' :
+				player = new Bomber();
+				break;
+		}
 		if (insert.length != 3) {
 			System.out.println("\n!! Bitte geben Sie 3 Integer als Parameter ein,\n"
 				+ "\tum die Breite, die Hoehe der Karte und die Anzahl der Aliens zu beschreiben. !!\n");
@@ -89,7 +100,7 @@ class Map {
 		for (Alien al : aliens) {
 			int x = al.getPos()[0],
 				y = al.getPos()[1];
-			map[x][y] = al.getStatus() == 1 ? 'A' : 'X';
+			map[x][y] = al.isAlive() ? 'A' : 'X';
 		}
 		// Spielfeld zeichnen.
 		System.out.println("\nSpielfeld:");

@@ -50,13 +50,13 @@ class Character {
 		}
 		for (Alien al : map.getAliens()) {
 			if (al.getPos()[0] == x && al.getPos()[1] == y) {
-				if (al.getStatus() == 0) {
+				if (!al.isAlive()) {
 					System.out.println("Dieser Alien ist bereits besiegt.");
 					return false;
 				}
 				double t = Math.random() * 9 / al.distance(position);
 				if (t >= 0.5) {
-					System.out.println("Der Spieler hat das Alien grtroffen!");
+					System.out.println("Der Spieler hat das Alien getroffen!");
 					al.tot();
 					return true;
 				} else {

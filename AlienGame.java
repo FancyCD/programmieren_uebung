@@ -6,11 +6,26 @@ import java.util.Scanner;
 */
 public class AlienGame {
 	public static void main(String[] args) throws Exception {
-		Map spielfeld = new Map(args);
+		Scanner usrinput = new Scanner(System.in);
+		char choice;
+		while (true) {
+			System.out.println("Bitte waehlen Sie Ihr Spielerklasse:");
+			System.out.println("P - Normale Spieler, mit 5 HP und normale Treffgenauigkeit.");
+			System.out.println("S - Sniper, mit 100% Treffgenauigkeit und 3 HP.");
+			System.out.println("B - Bomber, Angreifen auf eine Bereich, niederiger Treffgenauigkeit.");
+			System.out.print("Ihr Auswahl: ");
+			choice = usrinput.next().charAt(0);
+			if (choice != 'P' && choice != 'S' && choice != 'B') {
+				System.out.println("Bitte waehlen Sie eine Klasse.");
+				continue;
+			}
+			break;
+		}
+		Map spielfeld = new Map(args, choice);
 		int x, y;
-		while (spielfeld.getSmooth()) {
+		while (spielfeld.isSmooth()) {
 			System.out.println(spielfeld);
-			Scanner usrinput = new Scanner(System.in);
+			// Spieler attack
 			System.out.println("Wohin soll der Spieler angreifen? (X-Koordinate)");
 			try {
 				x = usrinput.nextInt();
@@ -32,7 +47,7 @@ public class AlienGame {
 			}
 			int deadalien = 0;
 			for (Alien al : spielfeld.getAliens()) {
-				if (al.getStatus() < 1) {
+				if (!al.isAlive()) {
 					deadalien++;
 				}
 				if (deadalien == spielfeld.getAliens().length) {
@@ -40,11 +55,22 @@ public class AlienGame {
 					return;
 				}
 			}
+			
+			// Aliens attack
 			for (Alien al : spielfeld.getAliens()) {
-				if (al.getStatus() == 1) {
+				if (al.isAlive()) {
 					al.shoot(spielfeld.getPlayer());
 					if (spielfeld.getPlayer().getHp() == 0) {
 						System.out.println("Die Aliens haben der Spieler besiegt.");
+						return;
+					}
+					if (al.isPoisoned()) {
+						System.out.printf("Alien (%d,%d) starben an Vergiftungen.", al.getPos()[0], al.getPos()[1]);
+						al.tot();
+					}
+					deadalien++;
+					if (deadalien == spielfeld.getAliens().length) {
+						System.out.println("Der Spieler hat alle Aliens besiegt!");
 						return;
 					}
 				}

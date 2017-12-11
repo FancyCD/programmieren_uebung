@@ -5,11 +5,18 @@
 * @author Chijiang Duan 4727082 Gruppe 4a
 */
 class Alien extends Character {
-	private int status = 1; // 1 als lebendig, 0 als tot
-	public int getStatus() {
+	private boolean status = true; // 1 als lebendig, 0 als tot
+	private boolean poisoned = false;
+	public boolean isAlive() {
 		return status;
 	}
 	public void tot() {
-		status -= 1;
+		status = false;
+	}
+	public void getPoisoned() {
+		poisoned = true;
+	}
+	public boolean isPoisoned() {
+		return poisoned;
 	}
 }
