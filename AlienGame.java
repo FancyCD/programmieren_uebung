@@ -7,15 +7,22 @@ import java.util.Scanner;
 public class AlienGame {
 	public static void main(String[] args) throws Exception {
 		Scanner usrinput = new Scanner(System.in);
+		String input;
 		char choice;
 		while (true) {
 			System.out.println("Bitte waehlen Sie Ihr Spielerklasse:");
 			System.out.println("P - Normale Spieler, mit 5 HP und normale Treffgenauigkeit.");
 			System.out.println("S - Sniper, mit 100% Treffgenauigkeit und 3 HP.");
-			System.out.println("B - Bomber, Angreifen auf eine Bereich, niederiger Treffgenauigkeit.");
+			System.out.println("B - Bomber, greift den Zielort und angrenzende Einheiten an.");
+			System.out.println("W - Walter White, vergiftet das Alien und laesst es in der naechsten Runde tot.");
 			System.out.print("Ihr Auswahl: ");
-			choice = usrinput.next().charAt(0);
-			if (choice != 'P' && choice != 'S' && choice != 'B') {
+			input = usrinput.next();
+			if (input.length() > 1) {
+				System.out.println("Bitte waehlen Sie eine Klasse.");
+				continue;
+			}
+			choice = input.charAt(0);
+			if (choice != 'P' && choice != 'S' && choice != 'B' && choice != 'W') {
 				System.out.println("Bitte waehlen Sie eine Klasse.");
 				continue;
 			}
@@ -65,13 +72,13 @@ public class AlienGame {
 						return;
 					}
 					if (al.isPoisoned()) {
-						System.out.printf("Alien (%d,%d) starben an Vergiftungen.", al.getPos()[0], al.getPos()[1]);
+						System.out.printf("Alien bei (%d,%d) starben an Vergiftungen.\n", al.getPos()[0], al.getPos()[1]);
 						al.tot();
-					}
-					deadalien++;
-					if (deadalien == spielfeld.getAliens().length) {
-						System.out.println("Der Spieler hat alle Aliens besiegt!");
-						return;
+						deadalien++;
+						if (deadalien == spielfeld.getAliens().length) {
+							System.out.println("Der Spieler hat alle Aliens besiegt!");
+							return;
+						}
 					}
 				}
 			}

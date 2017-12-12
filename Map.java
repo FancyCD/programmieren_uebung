@@ -41,6 +41,9 @@ class Map {
 			case 'B' :
 				player = new Bomber();
 				break;
+			case 'W' :
+				player = new Walter();
+				break;
 		}
 		if (insert.length != 3) {
 			System.out.println("\n!! Bitte geben Sie 3 Integer als Parameter ein,\n"
