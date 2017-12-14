@@ -51,9 +51,16 @@ class Map {
 			smooth = false;
 			return; // Die Methode beenden
 		}
-		int x = Integer.parseInt(insert[0]),
-			y = Integer.parseInt(insert[1]),
+		int x, y, alienzahl;
+		try {
+			x = Integer.parseInt(insert[0]);
+			y = Integer.parseInt(insert[1]);
 			alienzahl = Integer.parseInt(insert[2]);
+		} catch (java.lang.NumberFormatException err) {
+			System.out.println("Breite, Hoehe und Alienzahl sollen Ganzzahlen sein.");
+			smooth = false;
+			return;
+		}
 		// Ueberpruefung, ob das Feld mindestens 1 Feld besitzet. 
 		if (x < 1 || x > 10 || y < 1 || y > 10 || alienzahl < 0) {
 			System.out.println("\n!! Die Breite und Hoehe des Maps sollen zwischen 1 und 10 betragen.\n"

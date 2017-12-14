@@ -18,12 +18,12 @@ public class AlienGame {
 			System.out.print("Ihr Auswahl: ");
 			input = usrinput.next();
 			if (input.length() > 1) {
-				System.out.println("Bitte waehlen Sie eine Klasse.");
+				System.out.println("Bitte geben Sie eine Buchstabung als eine Klasse ein.");
 				continue;
 			}
 			choice = input.charAt(0);
 			if (choice != 'P' && choice != 'S' && choice != 'B' && choice != 'W') {
-				System.out.println("Bitte waehlen Sie eine Klasse.");
+				System.out.println("Bitte geben Sie eine Buchstabung als eine Klasse ein.");
 				continue;
 			}
 			break;
