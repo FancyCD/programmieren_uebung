@@ -29,6 +29,7 @@ class Map {
 	* und zufallige Positionen des Spielers 
 	* und der Aliens.
 	* @param insert ist eingegebene Parameter von Nutzer
+	* @param choice bestimmt die Spielerklasse
 	*/
 	Map(String[] insert, char choice) {
 		switch (choice) {

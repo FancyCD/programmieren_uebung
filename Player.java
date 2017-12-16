@@ -9,6 +9,10 @@ class Player extends Character {
 	public int getHp() {
 		return hitpoint;
 	}
+	/**
+	* Wenn er getroffen wird, 
+	* verringert sich das HP des Spielers um eins
+	*/
 	public void losHp() {
 		hitpoint -= 1;
 	}

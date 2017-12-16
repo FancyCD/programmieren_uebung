@@ -1,15 +1,26 @@
+/**
+* Archetyp für alle Charaktere in AlienGame,
+* beinhaltet zwei Shoot-Methoden für 
+* Spieler bzw. Aliens.
+* @author Chijiang Duan 4727082 Gruppe 4a
+*/
 class Character {
 	private int[] position = new int[2];
 	public int[] getPos() {
 		return position;
 	}
+	/**
+	* Diese Methode legt die Position des Charakters fest.
+	* @param a ist die x-Koordinate der Karte.
+	* @param b ist die y-Koordinate der Karte.
+	*/
 	public void setPos(int a, int b) {
 		position[0] = a;
 		position[1] = b;
 	}
 	/**
 	* Diese Methode rechbet den Abstand zwischen 
-	* das Alien und eine Zielposition.
+	* den Character und die Zielposition.
 	* @param pos zeigt die Zielposition.
 	* @return den berechneten Abstand.
 	*/
@@ -44,7 +55,7 @@ class Character {
 	public boolean shoot(int[] alienpos, Map map) {
 		int x = alienpos[0];
 		int y = alienpos[1];
-		if (x >= map.getMap().length || y >= map.getMap()[0].length) {
+		if (x < 0 || y < 0 || x >= map.getMap().length || y >= map.getMap()[0].length) {
 			System.out.println("Die Zielposition ist ausserhalb der Grenze.");
 			return false;
 		}

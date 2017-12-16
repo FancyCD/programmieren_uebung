@@ -5,6 +5,11 @@ import java.util.Scanner;
 * @author Chijiang Duan 4727082 Gruppe 4a
 */
 public class AlienGame {
+	/**
+	* Methode, um zu überprüfen, ob alle Aliens besiegt sind.
+	* @param aliens ist das Alien-Array, das überprüft werden soll.
+	* @return true, wenn alle Aliens besigt sind.
+	*/
 	static boolean alienClear(Alien[] aliens) {
 		int deadalien = 0;
 		for (Alien al : aliens) {
@@ -18,45 +23,32 @@ public class AlienGame {
 		return false;
 	}
 	public static void main(String[] args) throws Exception {
-		Scanner usrinput = new Scanner(System.in);
-		String input;
 		char choice;
-		//while (true) {
-		System.out.println("Hier sind die alle Spielerklassen:");
-		System.out.println("P - Normale Spieler, mit 5 HP und normale Treffgenauigkeit.");
-		System.out.println("S - Sniper, mit 100% Treffgenauigkeit und 3 HP.");
-		System.out.println("B - Bomber, greift den Zielort und angrenzende Einheiten an.");
-		System.out.println("W - Walter White, vergiftet das Alien und laesst es in der naechsten Runde tot.");
-			/*System.out.print("Ihr Auswahl: ");
-			input = usrinput.next();
-			if (input.length() > 1) {
-				System.out.println("Bitte geben Sie eine Buchstabung als eine Klasse ein.");
-				continue;
-			}
-			choice = input.charAt(0);
-			if (choice != 'P' && choice != 'S' && choice != 'B' && choice != 'W') {
-				System.out.println("Bitte geben Sie eine Buchstabung als eine Klasse ein.");
-				continue;
-			}
-			break;
-		}*/
+		System.out.println("|---------------------------------------------------------------------------|");
+		System.out.println("|Spielcharakter:                                                            |");
+		System.out.println("|Normaler Spieler, mit 5 HP und normale Treffwahrscheinlichkeit.            |");
+		System.out.println("|Sniper, mit 100% Treffwahrscheinlichkeit und 3 HP.                         |");
+		System.out.println("|Bomber, greift den Zielort und angrenzende Einheiten an.                   |");
+		System.out.println("|Walter White, vergiftet das Alien und laesst es in der naechsten Runde tot.|");
+		System.out.println("|---------------------------------------------------------------------------|\n");
 		double chara = Math.random();
 		if (chara < 0.25) {
 			choice = 'P';
-			System.out.println("Sie spielen jetzt als ein normale Spieler.");
+			System.out.println("Sie spielen jetzt als ein normale Spieler.\n");
 		} else if (chara < 0.5) {
 			choice = 'S';
-			System.out.println("Sie spielen jetzt als ein Sniper.");
+			System.out.println("Sie spielen jetzt als ein Sniper.\n");
 		} else if (chara < 0.75) {
 			choice = 'B';
-			System.out.println("Sie spielen jetzt als ein Bomber.");
+			System.out.println("Sie spielen jetzt als ein Bomber.\n");
 		} else {
 			choice = 'W';
-			System.out.println("Sie spielen jetzt als Walter White.");
+			System.out.println("Sie spielen jetzt als Walter White.\n");
 		}
 		Map spielfeld = new Map(args, choice);
 		int x, y;
 		while (spielfeld.isSmooth()) {
+			Scanner usrinput = new Scanner(System.in);
 			for (Alien al : spielfeld.getAliens()) {
 				if (al.isAlive() && al.isPoisoned()) {
 					System.out.printf("\nAlien bei (%d,%d) starben an Vergiftungen.\n", al.getPos()[0], al.getPos()[1]);
@@ -93,6 +85,7 @@ public class AlienGame {
 				return;
 			}
 			// Aliens attack
+			System.out.println("\nAliens greifen an.");
 			for (Alien al : spielfeld.getAliens()) {
 				if (al.isAlive()) {
 					al.shoot(spielfeld.getPlayer());

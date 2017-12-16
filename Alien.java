@@ -10,9 +10,15 @@ class Alien extends Character {
 	public boolean isAlive() {
 		return status;
 	}
+	/**
+	* Diese Methode setzt den Status des Aliens in den Tod.
+	*/
 	public void tot() {
 		status = false;
 	}
+	/**
+	* Diese Methode setzt den Poisoned-Status auf wahr.
+	*/
 	public void getPoisoned() {
 		poisoned = true;
 	}
