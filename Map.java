@@ -113,7 +113,7 @@ class Map {
 			map[x][y] = al.isAlive() ? 'A' : 'X';
 		}
 		// Spielfeld zeichnen.
-		System.out.println("\nSpielfeld:");
+		System.out.println("Spielfeld:");
 		// Koodinate Top und Waende Top
 		System.out.print("   ");
 		for (int i = 0; i < breite; i++) {
