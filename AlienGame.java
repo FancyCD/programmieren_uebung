@@ -9,13 +9,13 @@ public class AlienGame {
 		Scanner usrinput = new Scanner(System.in);
 		String input;
 		char choice;
-		while (true) {
-			System.out.println("Bitte waehlen Sie Ihr Spielerklasse:");
-			System.out.println("P - Normale Spieler, mit 5 HP und normale Treffgenauigkeit.");
-			System.out.println("S - Sniper, mit 100% Treffgenauigkeit und 3 HP.");
-			System.out.println("B - Bomber, greift den Zielort und angrenzende Einheiten an.");
-			System.out.println("W - Walter White, vergiftet das Alien und laesst es in der naechsten Runde tot.");
-			System.out.print("Ihr Auswahl: ");
+		//while (true) {
+		System.out.println("Hier sind die alle Spielerklassen:");
+		System.out.println("P - Normale Spieler, mit 5 HP und normale Treffgenauigkeit.");
+		System.out.println("S - Sniper, mit 100% Treffgenauigkeit und 3 HP.");
+		System.out.println("B - Bomber, greift den Zielort und angrenzende Einheiten an.");
+		System.out.println("W - Walter White, vergiftet das Alien und laesst es in der naechsten Runde tot.");
+			/*System.out.print("Ihr Auswahl: ");
 			input = usrinput.next();
 			if (input.length() > 1) {
 				System.out.println("Bitte geben Sie eine Buchstabung als eine Klasse ein.");
@@ -27,6 +27,20 @@ public class AlienGame {
 				continue;
 			}
 			break;
+		}*/
+		double chara = Math.random();
+		if (chara < 0.25) {
+			choice = 'P';
+			System.out.println("Sie spielen jetzt als ein normale Spieler.");
+		} else if (chara < 0.5) {
+			choice = 'S';
+			System.out.println("Sie spielen jetzt als ein Sniper.");
+		} else if (chara < 0.75) {
+			choice = 'B';
+			System.out.println("Sie spielen jetzt als ein Bomber.");
+		} else {
+			choice = 'W';
+			System.out.println("Sie spielen jetzt als Walter White.");
 		}
 		Map spielfeld = new Map(args, choice);
 		int x, y;
