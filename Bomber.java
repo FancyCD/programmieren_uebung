@@ -17,11 +17,11 @@ class Bomber extends Player {
 			return hasAlien;
 		}
 		for (Alien al : map.getAliens()) {
-			if ((pos[0] - 2 < al.getPos()[0] && al.getPos()[0] < pos[0] + 2) 
+			if (al.isAlive() && (pos[0] - 2 < al.getPos()[0] && al.getPos()[0] < pos[0] + 2) 
 				&& (pos[1] - 2 < al.getPos()[1] && al.getPos()[1] < pos[1] + 2)) {
 				hasAlien = true;
 				double t =  Math.random() * 4 / al.distance(getPos());
-				if (t > 0.5 && al.isAlive()) {
+				if (t > 0.5) {
 					System.out.printf("Der Bomber hat das Alien (%d, %d) getroffen!\n", al.getPos()[0], al.getPos()[1]);
 					al.tot();
 				} else {
