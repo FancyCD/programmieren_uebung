@@ -76,7 +76,7 @@ public class AlienGame {
 				continue;
 			}
 			int[] pos = {x, y};
-			if (!spielfeld.getPlayer().shoot(pos, spielfeld)) {
+			if (!spielfeld.getPlayer().shoot(pos, spielfeld, 1)) {
 				System.out.println("Bitte geben Sie eine andere Position ein!");
 				continue;
 			}
@@ -88,7 +88,7 @@ public class AlienGame {
 			System.out.println("\nAliens greifen an.");
 			for (Alien al : spielfeld.getAliens()) {
 				if (al.isAlive()) {
-					al.shoot(spielfeld.getPlayer());
+					al.shoot(spielfeld.getPlayer().getPos(), spielfeld, 2);
 					if (spielfeld.getPlayer().getHp() == 0) {
 						System.out.println("Die Aliens haben der Spieler besiegt.");
 						return;

@@ -27,7 +27,6 @@ class Bomber extends Player {
 				} else {
 					System.out.printf("Der Bomber hat das Alien (%d, %d) verfelt!\n", al.getPos()[0], al.getPos()[1]);
 				}
-
 			}
 		}
 		if (!hasAlien) {
