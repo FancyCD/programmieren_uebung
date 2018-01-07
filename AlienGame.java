@@ -60,6 +60,23 @@ public class AlienGame {
 				return;
 			}
 			System.out.println(spielfeld);
+			// ====================================================
+			System.out.println("Wohin soll der Spieler gehen? (X-Koordinate)");
+			try {
+				x = usrinput.nextInt();
+			} catch (java.util.InputMismatchException e) {
+				System.out.println("Bitte geben Sie ein Ganzenzahl ein.");
+				continue;
+			}
+			System.out.println("Wohin soll der Spieler gehen? (Y-Koordinate)");
+			try {
+				y = usrinput.nextInt();
+			} catch (java.util.InputMismatchException e) {
+				System.out.println("Bitte geben Sie ein Ganzenzahl ein.");
+				continue;
+			}
+			spielfeld.getPlayer().setPos(x,y);
+			// ====================================================
 			// Spieler attack
 			System.out.println("Wohin soll der Spieler angreifen? (X-Koordinate)");
 			try {

@@ -77,11 +77,7 @@ class Map {
 		}
 		map = new char[x][y];
 		aliens = new Alien[alienzahl];
-		for (int i = 0; i < x; i++) {
-			for (int j = 0; j < y; j++) {
-				map[i][j] = ' ';
-			}
-		}
+		
 		// Zufallige Position von Spieler
 		int zufallx = (int) (Math.random() * x),
 			zufally = (int) (Math.random() * y);
@@ -92,7 +88,7 @@ class Map {
 		while (alien < alienzahl) {
 			zufallx = (int) (Math.random() * x);
 			zufally = (int) (Math.random() * y);
-			if (map[zufallx][zufally] == ' ') {
+			if (map[zufallx][zufally] != 'P' && map[zufallx][zufally] != 'A') {
 				map[zufallx][zufally] = 'A';
 				aliens[alien] = new Alien();
 				aliens[alien].setPos(zufallx, zufally);
@@ -107,11 +103,18 @@ class Map {
 	* @return das Hitpoint des Spielers in String
 	*/
 	public String toString() {
+		int x = map.length, y = map[0].length;
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				map[i][j] = ' ';
+			}
+		}
+		map[player.getPos()[0]][player.getPos()[1]] = 'P';
 		int breite = map.length, hoehe = map[0].length;
 		for (Alien al : aliens) {
-			int x = al.getPos()[0],
-				y = al.getPos()[1];
-			map[x][y] = al.isAlive() ? 'A' : 'X';
+			int a = al.getPos()[0],
+				b = al.getPos()[1];
+			map[a][b] = al.isAlive() ? 'A' : 'X';
 		}
 		// Spielfeld zeichnen.
 		System.out.println("Spielfeld:");
