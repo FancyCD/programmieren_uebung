@@ -75,6 +75,9 @@ class Character implements Movable {
 		}
 	}
 	public boolean canMove(int[] pos, Map map) {
+		if(pos[0] == position[0] && pos[1] == position[1]) {
+			return true;
+		}
 		if (map.getPlayer().getPos()[0] == pos[0] && map.getPlayer().getPos()[1] == pos[1]) {
 			System.out.println("Player ist da");
 			return false;

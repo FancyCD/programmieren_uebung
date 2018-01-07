@@ -66,9 +66,10 @@ public class AlienGame {
 				newPos[0] = spielfeld.getPlayer().getPos()[0];
 				newPos[1] = spielfeld.getPlayer().getPos()[1];
 				System.out.println("Wohin soll der Spieler gehen?");
-				StringBuilder track = new StringBuilder();
-				if(usrinput.hasNext()) {
-					track.append(usrinput.next());
+				String track = "";
+				track = usrinput.nextLine();
+				if(track.isEmpty()) {
+					break;
 				}
 				if (track.length() > 3) {
 					System.out.println("Der Spieler kann nur bis zu 3 Schritte ausfuehren.");
