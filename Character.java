@@ -75,18 +75,20 @@ class Character implements Movable {
 		}
 	}
 	public boolean canMove(int[] pos, Map map) {
-		if (map.getPlayer().getPos()[0] != pos[0] && map.getPlayer().getPos()[1] != pos[1]) {
-			for(Alien al : map.getAliens()) {
-				if (al.getPos()[0] == pos[0] && al.getPos()[1] == pos[1]) {
-					return false;
-				}
-			}
-			return true;
+		if (map.getPlayer().getPos()[0] == pos[0] && map.getPlayer().getPos()[1] == pos[1]) {
+			System.out.println("Player ist da");
+			return false;
 		}
-		return false;
+		for(Alien al : map.getAliens()) {
+			if (al.getPos()[0] == pos[0] && al.getPos()[1] == pos[1]) {
+				System.out.println("Ein Alien ist auf dieser Position");
+				return false;
+			}
+		}
+		return true;
 	}
 	public void move(int[] pos) {
 		int x = pos[0], y = pos[1];
-		character.setPos(x, y);
+		setPos(x, y);
 	}
 }

@@ -61,21 +61,41 @@ public class AlienGame {
 			}
 			System.out.println(spielfeld);
 			// ====================================================
-			System.out.println("Wohin soll der Spieler gehen? (X-Koordinate)");
-			try {
-				x = usrinput.nextInt();
-			} catch (java.util.InputMismatchException e) {
-				System.out.println("Bitte geben Sie ein Ganzenzahl ein.");
-				continue;
+			int[] newPos = new int[2];
+			playerMove: while(true) {
+				newPos[0] = spielfeld.getPlayer().getPos()[0];
+				newPos[1] = spielfeld.getPlayer().getPos()[1];
+				System.out.println("Wohin soll der Spieler gehen?");
+				StringBuilder track = new StringBuilder();
+				if(usrinput.hasNext()) {
+					track.append(usrinput.next());
+				}
+				if (track.length() > 3) {
+					System.out.println("Der Spieler kann nur bis zu 3 Schritte ausfuehren.");
+					continue;
+				}
+				for (int i = 0; i < track.length(); i++) {
+					char letter = track.charAt(i);
+					if (letter != 'w' && letter != 's' && letter != 'a' && letter != 'd') {
+						System.out.println("Eingabe nicht erkennbar.");
+						continue playerMove;
+					}
+					if (letter == 'w') {
+						newPos[1] += -1;
+					} else if (letter == 's') {
+						newPos[1] += 1;
+					} else if (letter == 'a') {
+						newPos[0] += -1;
+					} else if (letter == 'd') {
+						newPos[0] += 1;
+					}
+				}
+				if (spielfeld.getPlayer().canMove(newPos, spielfeld)) {
+					spielfeld.getPlayer().move(newPos);
+					break;
+				}
 			}
-			System.out.println("Wohin soll der Spieler gehen? (Y-Koordinate)");
-			try {
-				y = usrinput.nextInt();
-			} catch (java.util.InputMismatchException e) {
-				System.out.println("Bitte geben Sie ein Ganzenzahl ein.");
-				continue;
-			}
-			spielfeld.getPlayer().setPos(x,y);
+			System.out.println(spielfeld);
 			// ====================================================
 			// Spieler attack
 			System.out.println("Wohin soll der Spieler angreifen? (X-Koordinate)");
