@@ -122,6 +122,47 @@ public class AlienGame {
 				System.out.println("Der Spieler hat alle Aliens besiegt!");
 				return;
 			}
+			System.out.println(spielfeld);
+			// Aliens attack
+			System.out.println("Aliens move.");
+			for (Alien al : spielfeld.getAliens()) {
+				if (al.isAlive()) {
+					int movestep = 0;
+					newPos[0] = al.getPos()[0];
+					newPos[1] = al.getPos()[1];
+					while (movestep < 2) {
+						if (spielfeld.getPlayer().getPos()[0] < al.getPos()[0]) {
+							newPos[0] -= 1;
+							if (al.canMove(newPos, spielfeld)) {
+								al.move(newPos);
+							}
+							movestep += 1;
+						}
+						if (spielfeld.getPlayer().getPos()[1] < al.getPos()[1]) {
+							newPos[1] -= 1;
+							if (al.canMove(newPos, spielfeld)) {
+								al.move(newPos);
+							}
+							movestep += 1;
+						}
+						if (spielfeld.getPlayer().getPos()[0] > al.getPos()[0]) {
+							newPos[0] += 1;
+							if (al.canMove(newPos, spielfeld)) {
+								al.move(newPos);
+							}
+							movestep += 1;
+						}
+						if (spielfeld.getPlayer().getPos()[1] > al.getPos()[1]) {
+							newPos[0] += 1;
+							if (al.canMove(newPos, spielfeld)) {
+								al.move(newPos);
+							}
+							movestep += 1;
+						}
+					}
+				}
+			}
+			System.out.println(spielfeld);
 			// Aliens attack
 			System.out.println("\nAliens greifen an.");
 			for (Alien al : spielfeld.getAliens()) {
