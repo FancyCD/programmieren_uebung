@@ -33,6 +33,7 @@ class Character {
 	* vom Spieler zu einem Alien aus.
 	* @param pos zeigt die Position des Zielaliens.
 	* @param map zeigt die Spielfeld des Spielers und der Aliens.
+	* @param performer unterscheidet, ob der Charakter ein Spieler oder ein Alien ist.
 	* @return true, falls die Zielposition effekiv ist.
 	*/
 	public boolean shoot(int[] pos, Map map, int performer) {

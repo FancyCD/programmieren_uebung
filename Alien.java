@@ -7,10 +7,7 @@
 class Alien extends Character implements Movable {
 	private boolean status = true; // 1 als lebendig, 0 als tot
 	private boolean poisoned = false;
-	static final int maxStep = 2; 
-	public int getMaxStep() {
-		return maxStep;
-	}
+	static final int MAXSTEP = 2; 
 	public boolean isAlive() {
 		return status;
 	}
@@ -29,9 +26,15 @@ class Alien extends Character implements Movable {
 	public boolean isPoisoned() {
 		return poisoned;
 	}
-
+	/**
+	* Methode, um festzustellen, 
+	* ob ein Pfad für den Alien moeglich ist.
+	* @param pos beschreibt den Pfad
+	* @param map zeigt das Spielmap
+	* @return true, wenn beweglich
+	*/
 	public boolean canMove(String pos, Map map) {
-		if (pos.length() > maxStep) {
+		if (pos.length() > MAXSTEP) {
 			System.out.println("Die maximale Verschiebungsgrenze wurde ueberschritten.");
 			return false;
 		}
@@ -64,14 +67,19 @@ class Alien extends Character implements Movable {
 		}
 		return true;
 	}
-
+	/**
+	* Methode, um das Alien entlang des 
+	* gegebenen Pfades zu bewegen.
+	* @param pos beschreibt den Pfad
+	* @param spielfeld zeigt das Spielmap
+	*/
 	public void move(String pos, Map spielfeld) {
 		int[] newPos = new int[2];
 		newPos[0] = getPos()[0];
 		newPos[1] = getPos()[1];
 		for (int i = 0; i < pos.length(); i++) {
 			char letter = pos.charAt(i);
-			if (canMove(letter + "", spielfeld)){
+			if (canMove(letter + "", spielfeld)) {
 				if (letter == 'w') {
 					newPos[1] += -1;
 				} else if (letter == 's') {

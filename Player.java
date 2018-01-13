@@ -6,7 +6,7 @@
 */
 class Player extends Character implements Movable {
 	private int hitpoint = 5;
-	final int maxStep = 3;
+	static final int MAXSTEP = 3;
 	public int getHp() {
 		return hitpoint;
 	}
@@ -17,9 +17,15 @@ class Player extends Character implements Movable {
 	public void losHp() {
 		hitpoint -= 1;
 	}
-
+	/**
+	* Methode, um festzustellen, 
+	* ob ein Pfad für den Spieler moeglich ist.
+	* @param pos beschreibt den Pfad
+	* @param map zeigt das Spielmap
+	* @return true, wenn beweglich
+	*/
 	public boolean canMove(String pos, Map map) {
-		if (pos.length() > maxStep) {
+		if (pos.length() > MAXSTEP) {
 			System.out.println("Die maximale Verschiebungsgrenze wurde ueberschritten.");
 			return false;
 		}
@@ -52,7 +58,12 @@ class Player extends Character implements Movable {
 		}
 		return true;
 	}
-
+	/**
+	* Methode, um der Spieler entlang des 
+	* gegebenen Pfades zu bewegen.
+	* @param pos beschreibt den Pfad
+	* @param spielfeld zeigt das Spielmap
+	*/
 	public void move(String pos, Map spielfeld) {
 		int[] newPos = new int[2];
 		newPos[0] = getPos()[0];

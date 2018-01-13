@@ -62,11 +62,11 @@ public class AlienGame {
 			System.out.println(spielfeld);
 			// ====================================================
 			// Spieler move
-			playerMove: while(true) {
+			playerMove: while (true) {
 				System.out.println("Wohin soll der Spieler gehen?");
 				String path = "";
 				path = usrinput.nextLine();
-				if(path.isEmpty()) {
+				if (path.isEmpty()) {
 					break;
 				}
 				for (int i = 0; i < path.length(); i++) {
@@ -118,35 +118,9 @@ public class AlienGame {
 			for (Alien al : spielfeld.getAliens()) {
 				if (al.isAlive()) {
 					System.out.printf("Das Alien an (%d, %d) bewegt sich zu ", al.getPos()[0], al.getPos()[1]);
-					StringBuilder alPath = new StringBuilder("");
-					int movestep = al.getMaxStep();
-					if (spielfeld.getPlayer().getPos()[0] < al.getPos()[0]) {
-						alPath.append("a");
-						if (spielfeld.getPlayer().getPos()[1] < al.getPos()[1]) {
-							alPath.append("w");
-						} else if (spielfeld.getPlayer().getPos()[1] > al.getPos()[1]) {
-							alPath.append("s");
-						} else {
-							alPath.append("a");
-						}
-					} else if (spielfeld.getPlayer().getPos()[0] > al.getPos()[0]) {
-						alPath.append("d");
-						if (spielfeld.getPlayer().getPos()[1] < al.getPos()[1]) {
-							alPath.append("w");
-						} else if (spielfeld.getPlayer().getPos()[1] > al.getPos()[1]) {
-							alPath.append("s");
-						} else {
-							alPath.append("d");
-						}
-					} else {
-						if (spielfeld.getPlayer().getPos()[1] < al.getPos()[1]) {
-							alPath.append("ww");
-						}
-						if (spielfeld.getPlayer().getPos()[1] > al.getPos()[1]) {
-							alPath.append("ss");
-						}
-					}
-					al.move(alPath.toString(), spielfeld);
+					String[] possibleMove = {"w", "a", "s", "d", "wa", "aw", "as", "sa", "dw", "wd", "sd", "ds"};
+					int randMove = (int) (Math.random() * 12);
+					al.move(possibleMove[randMove], spielfeld);
 					System.out.printf("(%d, %d).\n", al.getPos()[0], al.getPos()[1]);
 				}
 			}
