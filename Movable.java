@@ -1,4 +1,4 @@
 interface Movable {
-	boolean canMove(int[] pos, Map map);
-	void move(int[] pos);
+	boolean canMove(String pos, Map map);
+	void move(String pos, Map spielfeld);
 }

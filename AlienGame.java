@@ -61,108 +61,97 @@ public class AlienGame {
 			}
 			System.out.println(spielfeld);
 			// ====================================================
-			int[] newPos = new int[2];
+			// Spieler move
 			playerMove: while(true) {
-				newPos[0] = spielfeld.getPlayer().getPos()[0];
-				newPos[1] = spielfeld.getPlayer().getPos()[1];
 				System.out.println("Wohin soll der Spieler gehen?");
-				String track = "";
-				track = usrinput.nextLine();
-				if(track.isEmpty()) {
+				String path = "";
+				path = usrinput.nextLine();
+				if(path.isEmpty()) {
 					break;
 				}
-				if (track.length() > 3) {
-					System.out.println("Der Spieler kann nur bis zu 3 Schritte ausfuehren.");
-					continue;
-				}
-				for (int i = 0; i < track.length(); i++) {
-					char letter = track.charAt(i);
+				for (int i = 0; i < path.length(); i++) {
+					char letter = path.charAt(i);
 					if (letter != 'w' && letter != 's' && letter != 'a' && letter != 'd') {
 						System.out.println("Eingabe nicht erkennbar.");
 						continue playerMove;
 					}
-					if (letter == 'w') {
-						newPos[1] += -1;
-					} else if (letter == 's') {
-						newPos[1] += 1;
-					} else if (letter == 'a') {
-						newPos[0] += -1;
-					} else if (letter == 'd') {
-						newPos[0] += 1;
-					}
 				}
-				if (spielfeld.getPlayer().canMove(newPos, spielfeld)) {
-					spielfeld.getPlayer().move(newPos);
+				if (spielfeld.getPlayer().canMove(path, spielfeld)) {
+					spielfeld.getPlayer().move(path, spielfeld);
 					break;
 				}
 			}
 			System.out.println(spielfeld);
 			// ====================================================
 			// Spieler attack
-			System.out.println("Wohin soll der Spieler angreifen? (X-Koordinate)");
-			try {
-				x = usrinput.nextInt();
-			} catch (java.util.InputMismatchException e) {
-				System.out.println("Bitte geben Sie ein Ganzenzahl ein.");
-				continue;
-			}
-			System.out.println("Wohin soll der Spieler angreifen? (Y-Koordinate)");
-			try {
-				y = usrinput.nextInt();
-			} catch (java.util.InputMismatchException e) {
-				System.out.println("Bitte geben Sie ein Ganzenzahl ein.");
-				continue;
-			}
-			int[] pos = {x, y};
-			if (!spielfeld.getPlayer().shoot(pos, spielfeld, 1)) {
-				System.out.println("Bitte geben Sie eine andere Position ein!");
-				continue;
-			}
-			if (alienClear(spielfeld.getAliens())) {
-				System.out.println("Der Spieler hat alle Aliens besiegt!");
-				return;
+			while (true) {
+				usrinput = new Scanner(System.in);
+				System.out.println("Wohin soll der Spieler angreifen? (X-Koordinate)");
+				try {
+					x = usrinput.nextInt();
+				} catch (java.util.InputMismatchException e) {
+					System.out.println("Bitte geben Sie ein Ganzenzahl ein.");
+					continue;
+				}
+				System.out.println("Wohin soll der Spieler angreifen? (Y-Koordinate)");
+				try {
+					y = usrinput.nextInt();
+				} catch (java.util.InputMismatchException e) {
+					System.out.println("Bitte geben Sie ein Ganzenzahl ein.");
+					continue;
+				}
+				int[] pos = {x, y};
+				if (!spielfeld.getPlayer().shoot(pos, spielfeld, 1)) {
+					System.out.println("Bitte geben Sie eine andere Position ein!");
+					continue;
+				}
+				if (alienClear(spielfeld.getAliens())) {
+					System.out.println("Der Spieler hat alle Aliens besiegt!");
+					return;
+				}
+				break;
 			}
 			System.out.println(spielfeld);
-			// Aliens attack
-			System.out.println("Aliens move.");
+			// =======================================================
+			// Aliens move
+			System.out.println("Die Aliens bewegen sich.");
 			for (Alien al : spielfeld.getAliens()) {
 				if (al.isAlive()) {
-					int movestep = 0;
-					newPos[0] = al.getPos()[0];
-					newPos[1] = al.getPos()[1];
-					while (movestep < 2) {
-						if (spielfeld.getPlayer().getPos()[0] < al.getPos()[0]) {
-							newPos[0] -= 1;
-							if (al.canMove(newPos, spielfeld)) {
-								al.move(newPos);
-							}
-							movestep += 1;
-						}
+					System.out.printf("Das Alien an (%d, %d) bewegt sich zu ", al.getPos()[0], al.getPos()[1]);
+					StringBuilder alPath = new StringBuilder("");
+					int movestep = al.getMaxStep();
+					if (spielfeld.getPlayer().getPos()[0] < al.getPos()[0]) {
+						alPath.append("a");
 						if (spielfeld.getPlayer().getPos()[1] < al.getPos()[1]) {
-							newPos[1] -= 1;
-							if (al.canMove(newPos, spielfeld)) {
-								al.move(newPos);
-							}
-							movestep += 1;
+							alPath.append("w");
+						} else if (spielfeld.getPlayer().getPos()[1] > al.getPos()[1]) {
+							alPath.append("s");
+						} else {
+							alPath.append("a");
 						}
-						if (spielfeld.getPlayer().getPos()[0] > al.getPos()[0]) {
-							newPos[0] += 1;
-							if (al.canMove(newPos, spielfeld)) {
-								al.move(newPos);
-							}
-							movestep += 1;
+					} else if (spielfeld.getPlayer().getPos()[0] > al.getPos()[0]) {
+						alPath.append("d");
+						if (spielfeld.getPlayer().getPos()[1] < al.getPos()[1]) {
+							alPath.append("w");
+						} else if (spielfeld.getPlayer().getPos()[1] > al.getPos()[1]) {
+							alPath.append("s");
+						} else {
+							alPath.append("d");
+						}
+					} else {
+						if (spielfeld.getPlayer().getPos()[1] < al.getPos()[1]) {
+							alPath.append("ww");
 						}
 						if (spielfeld.getPlayer().getPos()[1] > al.getPos()[1]) {
-							newPos[0] += 1;
-							if (al.canMove(newPos, spielfeld)) {
-								al.move(newPos);
-							}
-							movestep += 1;
+							alPath.append("ss");
 						}
 					}
+					al.move(alPath.toString(), spielfeld);
+					System.out.printf("(%d, %d).\n", al.getPos()[0], al.getPos()[1]);
 				}
 			}
 			System.out.println(spielfeld);
+			// ==================================================================
 			// Aliens attack
 			System.out.println("\nAliens greifen an.");
 			for (Alien al : spielfeld.getAliens()) {
