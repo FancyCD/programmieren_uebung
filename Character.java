@@ -50,7 +50,7 @@ class Character {
 						System.out.println("Dieser Alien ist bereits besiegt.");
 						return false;
 					}
-					double t = Math.random() * 9 / al.distance(position);
+					double t = Math.random() * 6 / al.distance(pos);
 					if (t >= 0.5) {
 						System.out.println("Der Spieler hat das Alien Getroffen!");
 						al.tot();
@@ -64,7 +64,7 @@ class Character {
 			System.out.println("Kein Alien auf der Zielposition.");
 			return false;
 		} else {
-			double t = Math.random() * 9 / distance(position);
+			double t = Math.random() * 4 / distance(pos);
 			if (t >= 0.5) {
 				System.out.printf("Das Alien bei (%d, %d) has den Spieler Getroffen!\n", getPos()[0], getPos()[1]);
 				map.getPlayer().losHp();

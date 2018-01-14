@@ -60,7 +60,6 @@ class Alien extends Character implements Movable {
 			}
 			for (Alien al : map.getAliens()) {
 				if (al.getPos()[0] == newPos[0] && al.getPos()[1] == newPos[1]) {
-					System.out.printf("von Alien bei (%d, %d) blockiert.\n", al.getPos()[0], al.getPos()[1]);
 					return false;
 				}
 			}
@@ -90,7 +89,7 @@ class Alien extends Character implements Movable {
 					newPos[0] += 1;
 				}
 			}
+			setPos(newPos[0], newPos[1]);
 		}
-		setPos(newPos[0], newPos[1]);
 	}
 }
