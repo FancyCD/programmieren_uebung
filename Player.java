@@ -43,6 +43,10 @@ class Player extends Character implements Movable {
 			} else if (letter == 'd') {
 				newPos[0] += 1;
 			}
+			if (map.getMap()[newPos[0]][newPos[1]] == '#') {
+				System.out.println("von eine Wand blockiert.");
+				return false;
+			}
 			if (newPos[0] < 0 || newPos[0] > map.getMap().length - 1 || newPos[1] < 0 || newPos[1] > map.getMap()[0].length - 1) {
 				return false;
 			}
@@ -50,7 +54,7 @@ class Player extends Character implements Movable {
 				return false;
 			}
 			for (Alien al : map.getAliens()) {
-				if (al.getPos()[0] == newPos[0] && al.getPos()[1] == newPos[1]) {
+				if (al.getPos()[0] == newPos[0] && al.getPos()[1] == newPos[1] && al.isAlive()) {
 					System.out.printf("von Alien bei (%d, %d) blockiert.\n", al.getPos()[0], al.getPos()[1]);
 					return false;
 				}
@@ -66,6 +70,7 @@ class Player extends Character implements Movable {
 	*/
 	public void move(String pos, Map spielfeld) {
 		int[] newPos = new int[2];
+		spielfeld.getMap()[getPos()[0]][getPos()[1]] = ' ';
 		newPos[0] = getPos()[0];
 		newPos[1] = getPos()[1];
 		for (int i = 0; i < pos.length(); i++) {

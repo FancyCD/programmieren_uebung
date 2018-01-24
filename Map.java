@@ -1,3 +1,6 @@
+import java.util.Collections;
+import java.util.Arrays;
+
 /**
 * Diese Klasse repraesentiert das Spielfeld.
 * Sie speichert das Map, den Spieler und
@@ -63,8 +66,8 @@ class Map {
 			return;
 		}
 		// Ueberpruefung, ob das Feld mindestens 1 Feld besitzet. 
-		if (x < 1 || x > 10 || y < 1 || y > 10 || alienzahl < 0) {
-			System.out.println("\n!! Die Breite und Hoehe des Maps sollen zwischen 1 und 10 betragen.\n"
+		if (x < 5 || y < 5 || alienzahl < 0) {
+			System.out.println("\n!! Die Breite und Hoehe des Maps sollen groesser als 4 betragen.\n"
 				+ "\tDie Anzahl der Aliens sollt zumindest als 0 betragen. !!\n"); 
 			smooth = false;
 			return;	// Die Methode beenden
@@ -75,20 +78,27 @@ class Map {
 			smooth = false;
 			return;	// Die Methode beenden
 		}
+		// Irrgarten generiert
 		map = new char[x][y];
+		map = generateMatchfield(x, y);
+		// Alienarray generiert
 		aliens = new Alien[alienzahl];
-		
 		// Zufallige Position von Spieler
-		int zufallx = (int) (Math.random() * x),
-			zufally = (int) (Math.random() * y);
-		map[zufallx][zufally] = 'P';
-		player.setPos(zufallx, zufally);
+		while (true) {
+			int zufallx = (int) (Math.random() * x),
+				zufally = (int) (Math.random() * y);
+			if (map[zufallx][zufally] == ' ') {
+				map[zufallx][zufally] = 'P';
+				player.setPos(zufallx, zufally);
+				break;
+			}
+		}
 		// Zufallige Positionen von Aliens
 		int alien = 0;
 		while (alien < alienzahl) {
-			zufallx = (int) (Math.random() * x);
-			zufally = (int) (Math.random() * y);
-			if (map[zufallx][zufally] != 'P' && map[zufallx][zufally] != 'A') {
+			int zufallx = (int) (Math.random() * x),
+				zufally = (int) (Math.random() * y);
+			if (map[zufallx][zufally] == ' ') {
 				map[zufallx][zufally] = 'A';
 				aliens[alien] = new Alien();
 				aliens[alien].setPos(zufallx, zufally);
@@ -97,49 +107,89 @@ class Map {
 		}
 		smooth = true;
 	}
+	private char[][] generateMatchfield(int width, int height) {
+		// Map generiert und Leerzeichen eingeben
+		char[][] field = new char[width][height];
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				Wall wall = new Wall();
+				field[i][j] = wall.toString().charAt(0);
+			}
+		}
+		int x = (int) (1 + Math.random() * (width - 3) / 2);
+		int y = (int) (1 + Math.random() * (height - 3) / 2);
+		irrgarten(field, 2 * x, 2 * y);
+		return field;
+	}
+
+	void irrgarten (char[][] field, int x, int y) {
+		field[x][y] = ' ';
+		int[][] nachbarn = new int[4][2];
+		
+		nachbarn[0][0] = x + 2;
+		nachbarn[0][1] = y;
+		
+		nachbarn[1][0] = x - 2;
+		nachbarn[1][1] = y;
+		
+		nachbarn[2][0] = x;
+		nachbarn[2][1] = y + 2;
+		
+		nachbarn[3][0] = x;
+		nachbarn[3][1] = y - 2;
+
+		Collections.shuffle(Arrays.asList(nachbarn));
+
+		for (int[] pos : nachbarn) {
+			if (field[pos[0]][pos[1]] != ' ') {
+				field[(x + pos[0])/2][(y + pos[1])/2] = ' ';
+				try {
+					irrgarten(field, pos[0], pos[1]);
+				} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+					continue;
+				}
+			}
+		}
+		return;
+	}
+
 	/**
 	* Diese Methode ist die toString 
 	* Methode der Map-Klasse.
 	* @return das Hitpoint des Spielers in String
 	*/
 	public String toString() {
-		int x = map.length, y = map[0].length;
-		for (int i = 0; i < x; i++) {
-			for (int j = 0; j < y; j++) {
-				map[i][j] = ' ';
-			}
-		}
-		map[player.getPos()[0]][player.getPos()[1]] = 'P';
 		int breite = map.length, hoehe = map[0].length;
 		for (Alien al : aliens) {
 			int a = al.getPos()[0],
 				b = al.getPos()[1];
 			map[a][b] = al.isAlive() ? 'A' : 'X';
 		}
+		map[player.getPos()[0]][player.getPos()[1]] = 'P';
 		// Spielfeld zeichnen.
 		System.out.println("Spielfeld:");
 		// Koodinate Top und Waende Top
 		System.out.print("   ");
 		for (int i = 0; i < breite; i++) {
-			System.out.print(i);
+			System.out.print(i % 10);
 		}
 		System.out.print("\n  ");
 		for (int i = 0; i < breite + 2; i++) {
-			System.out.print('*');
+			System.out.print('#');
 		}
 		System.out.println();
 		// Spielfeld
 		for (int i = 0; i < hoehe; i++) {
-			System.out.printf( "%2d*", i);	// Die Waende links hinzufuegen
+			System.out.printf( "%2d#", i);	// Die Waende links hinzufuegen
 			for (int j = 0; j < breite; j++) {
 				System.out.print(map[j][i]);
 			}
-			System.out.println("*");	// Die Waende rechts hinzufuegen
+			System.out.println("#");	// Die Waende rechts hinzufuegen
 		}
 		// Der Wand Bottom
 		System.out.print("  ");
 		for (int i = 0; i < breite + 2; i++) {
-			System.out.print('*');
+			System.out.print('#');
 		}
 		System.out.println();
 		return "Der Spieler hat noch " + player.getHp() + " Hitpoints";

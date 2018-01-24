@@ -28,6 +28,90 @@ class Character {
 		int distance = Math.abs(pos[0] - position[0]) + Math.abs(pos[1] - position[1]);
 		return distance;
 	}
+
+	public boolean canSee(Map map, int[] pos) {
+		if (position[0] == pos[0]) {
+			if (Math.abs(pos[1] - position[1]) == 1) {
+				System.out.println("situation 1");
+				return true;
+			} else if (pos[1] > position[1]) {
+				for (int i = 0; i < pos[1] - position[1]; i++) {
+					if (map.getMap()[pos[0]][position[1] + i] == '#') {
+						return false;
+					}
+				}
+				System.out.println("situation 2");
+				return true;
+			} else {
+				for (int i = 0; i < position[1] - pos[1]; i++) {
+					if (map.getMap()[pos[0]][pos[1] + i] == '#') {
+						return false;
+					}
+				}
+				System.out.println("situation 3");
+				return true;
+			}
+		} else if (position[1] == pos[1]) {
+			if (Math.abs(pos[0] - position[0]) == 1) {
+				System.out.println("situation 4");
+				return true;
+			} else if (pos[0] > position[0]) {
+				for (int i = 0; i < pos[0] - position[0]; i++) {
+					if (map.getMap()[position[0] + i][position[1]] == '#') {
+						return false;
+					}
+				}
+				System.out.println("situation 5");
+				return true;
+			} else {
+				for (int i = 0; i < position[0] - pos[0]; i++) {
+					if (map.getMap()[pos[0] + i][pos[1]] == '#') {
+						return false;
+					}
+				}
+				System.out.println("situation 6");
+				return true;
+			}
+		} else if (Math.abs(position[1] - pos[1]) == Math.abs(position[0] - pos[0])) {
+			if (Math.abs(position[1] - pos[1]) == 1) {
+				System.out.println("situation 7");
+				return true;
+			} else if (position[1] > pos[1]) {
+				if (position[0] > pos[0]) {
+					for (int i = 0; i < position[1] - pos[1]; i++) {
+						if (map.getMap()[pos[0] + i][pos[1] + i] == '#') {
+							return false;
+						}
+					}
+				} else {
+					for (int i = 0; i < position[1] - pos[1]; i++) {
+						if (map.getMap()[position[0] + i][pos[1] + i] == '#') {
+							return false;
+						}
+					}
+				}
+				System.out.println("situation 8");
+				return true;
+			} else {
+				if (position[0] > pos[0]) {
+					for (int i = 0; i < pos[1] - position[1]; i++) {
+						if (map.getMap()[pos[0] + i][position[1] + i] == '#') {
+							return false;
+						}
+					}
+				} else {
+					for (int i = 0; i < pos[1] - position[1]; i++) {
+						if (map.getMap()[position[0] + i][position[1] + i] == '#') {
+							return false;
+						}
+					}
+				}
+				System.out.println("situation 9");
+				return true;
+			}
+		}
+		return false;
+	}
 	/**
 	* Diese Methode führt den Schießprozess 
 	* vom Spieler zu einem Alien aus.
@@ -40,29 +124,34 @@ class Character {
 		int x = pos[0];
 		int y = pos[1];
 		if (performer == 1) {
-			if (x < 0 || y < 0 || x >= map.getMap().length || y >= map.getMap()[0].length) {
-				System.out.println("Die Zielposition ist ausserhalb der Grenze.");
-				return false;
-			}
-			for (Alien al : map.getAliens()) {
-				if (al.getPos()[0] == x && al.getPos()[1] == y) {
-					if (!al.isAlive()) {
-						System.out.println("Dieser Alien ist bereits besiegt.");
-						return false;
-					}
-					double t = Math.random() * 6 / al.distance(pos);
-					if (t >= 0.5) {
-						System.out.println("Der Spieler hat das Alien Getroffen!");
-						al.tot();
-						return true;
-					} else {
-						System.out.println("Der Spieler hat das Alien Verfehlt!");
-						return true;
+			if (canSee(map, pos)) {
+				if (x < 0 || y < 0 || x >= map.getMap().length || y >= map.getMap()[0].length) {
+					System.out.println("Die Zielposition ist ausserhalb der Grenze.");
+					return false;
+				}
+				for (Alien al : map.getAliens()) {
+					if (al.getPos()[0] == x && al.getPos()[1] == y) {
+						if (!al.isAlive()) {
+							System.out.println("Dieser Alien ist bereits besiegt.");
+							return false;
+						}
+						double t = Math.random() * 6 / al.distance(pos);
+						if (t >= 0.5) {
+							System.out.println("Der Spieler hat das Alien Getroffen!");
+							al.tot();
+							return true;
+						} else {
+							System.out.println("Der Spieler hat das Alien Verfehlt!");
+							return true;
+						}
 					}
 				}
+				System.out.println("Kein Alien auf der Zielposition.");
+				return false;
+			} else {
+				System.out.println("Die Zielposition wird von eine Wand blockiert.");
+				return false;
 			}
-			System.out.println("Kein Alien auf der Zielposition.");
-			return false;
 		} else {
 			double t = Math.random() * 4 / distance(pos);
 			if (t >= 0.5) {

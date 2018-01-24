@@ -55,6 +55,9 @@ class Alien extends Character implements Movable {
 			if (newPos[0] < 0 || newPos[0] > map.getMap().length - 1 || newPos[1] < 0 || newPos[1] > map.getMap()[0].length - 1) {
 				return false;
 			}
+			if (map.getMap()[newPos[0]][newPos[1]] == '#') {
+				return false;
+			}
 			if (map.getPlayer().getPos()[0] == newPos[0] && map.getPlayer().getPos()[1] == newPos[1]) {
 				return false;
 			}
@@ -73,6 +76,7 @@ class Alien extends Character implements Movable {
 	* @param spielfeld zeigt das Spielmap
 	*/
 	public void move(String pos, Map spielfeld) {
+		spielfeld.getMap()[getPos()[0]][getPos()[1]] = ' ';
 		int[] newPos = new int[2];
 		newPos[0] = getPos()[0];
 		newPos[1] = getPos()[1];

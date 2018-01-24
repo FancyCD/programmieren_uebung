@@ -85,6 +85,17 @@ public class AlienGame {
 			// ====================================================
 			// Spieler attack
 			while (true) {
+				boolean hasAlien = false;
+				for (Alien al : spielfeld.getAliens()) {
+					if (al.canSee(spielfeld, spielfeld.getPlayer().getPos())) {
+						System.out.printf("Das Spiel kann nun das Alien bei (%d, %d) angreifen.\n", al.getPos()[0], al.getPos()[1]);
+						hasAlien = true;
+					}
+				}
+				if (!hasAlien) {
+					System.out.println("Es gibt kein Alien, das jetzt vom Spieler angegriffen werden kann.");
+					break;
+				}
 				usrinput = new Scanner(System.in);
 				System.out.println("Wohin soll der Spieler angreifen? (X-Koordinate)");
 				try {
@@ -130,10 +141,12 @@ public class AlienGame {
 			System.out.println("\nAliens greifen an.");
 			for (Alien al : spielfeld.getAliens()) {
 				if (al.isAlive()) {
-					al.shoot(spielfeld.getPlayer().getPos(), spielfeld, 2);
-					if (spielfeld.getPlayer().getHp() == 0) {
-						System.out.println("Die Aliens haben der Spieler besiegt.");
-						return;
+					if (al.canSee(spielfeld, spielfeld.getPlayer().getPos())) {
+						al.shoot(spielfeld.getPlayer().getPos(), spielfeld, 2);
+						if (spielfeld.getPlayer().getHp() == 0) {
+							System.out.println("Die Aliens haben der Spieler besiegt.");
+							return;
+						}
 					}
 				}
 			}
