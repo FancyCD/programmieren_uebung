@@ -43,11 +43,11 @@ class Player extends Character implements Movable {
 			} else if (letter == 'd') {
 				newPos[0] += 1;
 			}
-			if (map.getMap()[newPos[0]][newPos[1]] == '#') {
-				System.out.println("von eine Wand blockiert.");
+			if (newPos[0] < 0 || newPos[0] > map.getMap().length - 1 || newPos[1] < 0 || newPos[1] > map.getMap()[0].length - 1) {
 				return false;
 			}
-			if (newPos[0] < 0 || newPos[0] > map.getMap().length - 1 || newPos[1] < 0 || newPos[1] > map.getMap()[0].length - 1) {
+			if (map.getMap()[newPos[0]][newPos[1]] == '#') {
+				System.out.println("von eine Wand blockiert.");
 				return false;
 			}
 			if (map.getPlayer().getPos()[0] == newPos[0] && map.getPlayer().getPos()[1] == newPos[1]) {

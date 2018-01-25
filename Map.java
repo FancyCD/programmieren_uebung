@@ -154,13 +154,13 @@ class Map {
 		Collections.shuffle(Arrays.asList(nachbarn));
 
 		for (int[] pos : nachbarn) {
-			if (field[pos[0]][pos[1]] != ' ') {
-				field[(x + pos[0]) / 2][(y + pos[1]) / 2] = ' ';
-				try {
+			try {
+				if (field[pos[0]][pos[1]] != ' ') {
+					field[(x + pos[0]) / 2][(y + pos[1]) / 2] = ' ';
 					irrgarten(field, pos[0], pos[1]);
-				} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-					continue;
 				}
+			} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+				continue;
 			}
 		}
 		return;
