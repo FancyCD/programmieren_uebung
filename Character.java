@@ -28,11 +28,16 @@ class Character {
 		int distance = Math.abs(pos[0] - position[0]) + Math.abs(pos[1] - position[1]);
 		return distance;
 	}
-
+	/**
+	* Diese Methode entscheidet, ob 
+	* eine Position für das Zeichen sichtbar ist.
+	* @param map ist das Map vom Spielfeld
+	* @param pos ist die Position
+	* @return true wenn die Position sichtbar ist.
+	*/
 	public boolean canSee(Map map, int[] pos) {
 		if (position[0] == pos[0]) {
 			if (Math.abs(pos[1] - position[1]) == 1) {
-				System.out.println("situation 1");
 				return true;
 			} else if (pos[1] > position[1]) {
 				for (int i = 0; i < pos[1] - position[1]; i++) {
@@ -40,7 +45,6 @@ class Character {
 						return false;
 					}
 				}
-				System.out.println("situation 2");
 				return true;
 			} else {
 				for (int i = 0; i < position[1] - pos[1]; i++) {
@@ -48,12 +52,10 @@ class Character {
 						return false;
 					}
 				}
-				System.out.println("situation 3");
 				return true;
 			}
 		} else if (position[1] == pos[1]) {
 			if (Math.abs(pos[0] - position[0]) == 1) {
-				System.out.println("situation 4");
 				return true;
 			} else if (pos[0] > position[0]) {
 				for (int i = 0; i < pos[0] - position[0]; i++) {
@@ -61,7 +63,6 @@ class Character {
 						return false;
 					}
 				}
-				System.out.println("situation 5");
 				return true;
 			} else {
 				for (int i = 0; i < position[0] - pos[0]; i++) {
@@ -69,12 +70,10 @@ class Character {
 						return false;
 					}
 				}
-				System.out.println("situation 6");
 				return true;
 			}
 		} else if (Math.abs(position[1] - pos[1]) == Math.abs(position[0] - pos[0])) {
 			if (Math.abs(position[1] - pos[1]) == 1) {
-				System.out.println("situation 7");
 				return true;
 			} else if (position[1] > pos[1]) {
 				if (position[0] > pos[0]) {
@@ -90,7 +89,6 @@ class Character {
 						}
 					}
 				}
-				System.out.println("situation 8");
 				return true;
 			} else {
 				if (position[0] > pos[0]) {
@@ -106,7 +104,6 @@ class Character {
 						}
 					}
 				}
-				System.out.println("situation 9");
 				return true;
 			}
 		}

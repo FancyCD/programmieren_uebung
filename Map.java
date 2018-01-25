@@ -107,6 +107,12 @@ class Map {
 		}
 		smooth = true;
 	}
+	/**
+	* Diese Methode entstellt ein Labyrinth fuer das Spielfeld.
+	* @param width ist die Breite des Maps
+	* @param height ist die hoehe des Maps
+	* @return ein Irrgarten als das Map.
+	*/
 	private char[][] generateMatchfield(int width, int height) {
 		// Map generiert und Leerzeichen eingeben
 		char[][] field = new char[width][height];
@@ -121,8 +127,15 @@ class Map {
 		irrgarten(field, 2 * x, 2 * y);
 		return field;
 	}
-
-	void irrgarten (char[][] field, int x, int y) {
+	/**
+	* Diese Methode macht den zugaenglichen Bereich im
+	* Map. Es verwendet Rekursion, um ein Labyrinth 
+	* zu erstellen.
+	* @param field zeigt das Map des Spielfelds.
+	* @param x ist x-Koordinate des Zentralpunkts
+	* @param y ist y-Koordinate des Zentralpunkts
+	*/
+	private void irrgarten(char[][] field, int x, int y) {
 		field[x][y] = ' ';
 		int[][] nachbarn = new int[4][2];
 		
@@ -142,7 +155,7 @@ class Map {
 
 		for (int[] pos : nachbarn) {
 			if (field[pos[0]][pos[1]] != ' ') {
-				field[(x + pos[0])/2][(y + pos[1])/2] = ' ';
+				field[(x + pos[0]) / 2][(y + pos[1]) / 2] = ' ';
 				try {
 					irrgarten(field, pos[0], pos[1]);
 				} catch (java.lang.ArrayIndexOutOfBoundsException e) {

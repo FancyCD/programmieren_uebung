@@ -9,9 +9,14 @@ class Walter extends Player {
 	* Diese Methode vergiftet den Alien auf der Zielposition.
 	* @param alienpos zeigt die Position des Zielaliens.
 	* @param map zeigt die Spielfeld des Spielers und der Aliens.
+	* @param performer immer 1 als der Spieler.
 	* @return true, falls die Zielposition effekiv ist.
 	*/
-	public boolean shoot(int[] alienpos, Map map) {
+	public boolean shoot(int[] alienpos, Map map, int performer) {
+		if (!canSee(map, alienpos)) {
+			System.out.println("Der Spieler konnte die Zielposition nicht erreichen.");
+			return false;
+		}
 		if (alienpos[0] >= map.getMap().length || alienpos[1] >= map.getMap()[0].length) {
 			System.out.println("Die Zielposition ist ausserhalb der Grenze.");
 			return false;

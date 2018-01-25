@@ -8,10 +8,15 @@ class Bomber extends Player {
 	* greift den Zielort und angrenzende Einheiten an.
 	* @param pos zeigt den Mittelpunkt des Zielbereichs.
 	* @param map zeigt die Spielfeld des Spielers und der Aliens.
+	* @param performer immer 1, als ein Playerfigur
 	* @return true, falls die Zielposition effekiv ist.
 	*/
-	public boolean shoot(int[] pos, Map map) {
+	public boolean shoot(int[] pos, Map map, int performer) {
 		boolean hasAlien = false;
+		if (!canSee(map, pos)) {
+			System.out.println("Der Spieler konnte die Zielposition nicht erreichen.");
+			return hasAlien;
+		}
 		if (pos[0] >= map.getMap().length || pos[1] >= map.getMap()[0].length) {
 			System.out.println("Die Zielposition ist ausserhalb der Grenze.");
 			return hasAlien;

@@ -87,7 +87,7 @@ public class AlienGame {
 			while (true) {
 				boolean hasAlien = false;
 				for (Alien al : spielfeld.getAliens()) {
-					if (al.canSee(spielfeld, spielfeld.getPlayer().getPos())) {
+					if (al.isAlive() && al.canSee(spielfeld, spielfeld.getPlayer().getPos())) {
 						System.out.printf("Das Spiel kann nun das Alien bei (%d, %d) angreifen.\n", al.getPos()[0], al.getPos()[1]);
 						hasAlien = true;
 					}
@@ -138,7 +138,6 @@ public class AlienGame {
 			System.out.println(spielfeld);
 			// ==================================================================
 			// Aliens attack
-			System.out.println("\nAliens greifen an.");
 			for (Alien al : spielfeld.getAliens()) {
 				if (al.isAlive()) {
 					if (al.canSee(spielfeld, spielfeld.getPlayer().getPos())) {
